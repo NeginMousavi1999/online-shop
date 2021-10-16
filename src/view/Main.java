@@ -43,16 +43,15 @@ public class Main {
         while (true) {
             System.out.println("Enter your password: ");
             String password = scanner.nextLine();
-            User user = new User(username, password);
-            if (userService.isPassCorrect(user)) {//TODO id?
+            User user = userService.findMentionedUser(username, password);
+            if (user != null) {
                 tryToEnterCorrectPass = 0;
                 showMenu(user);
                 break;
             } else if (tryToEnterCorrectPass == 2) {
                 System.out.println("you've tried 3 times and it's still incorrect!");
                 break;
-            }
-            else {
+            } else {
                 System.out.println("the password is incorrect");
                 tryToEnterCorrectPass++;
             }
@@ -106,9 +105,10 @@ public class Main {
 
     private static void addNewProduct(User user) throws SQLException {
         int count = userService.findCountOfItemsInUserCart(user);
-        if (count < 5)
-            userService.addNewProductForThisUser(user);
-        else
+        if (count < 5) {
+            userService.addNewProductForThisUser(user);//TODO show products to choose
+
+        } else
             System.out.println("sorry... you can't add more than 5 items in your cart");
     }
 
@@ -124,7 +124,7 @@ public class Main {
                 User user = new User(username, password);
                 userService.addNewUser(user);
                 break;
-            } else if (!"n".equals(answer)){
+            } else if (!"n".equals(answer)) {
                 printInvalidInput();
             }
         }

@@ -39,14 +39,16 @@ public class UserDao extends BaseDao {
         }
     }
 
-    public boolean isPassCorrect(User user) throws SQLException {
+    public User findUser(String username, String password) throws SQLException {
         if (connection != null) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users where username=? and password=?");
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next();
+            if (resultSet.next()) {
+                return new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+            }
         }
-        return false;
+        return null;
     }
 }

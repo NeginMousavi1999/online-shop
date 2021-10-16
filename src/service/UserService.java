@@ -23,15 +23,15 @@ public class UserService {
         userDao.create(user);
     }
 
-    public boolean isPassCorrect(User user) throws SQLException {
-        return userDao.isPassCorrect(user);
+    public User findMentionedUser(String username, String password) throws SQLException {
+        return userDao.findUser(username, password);
     }
 
-    public int findCountOfItemsInUserCart(User user) {
+    public int findCountOfItemsInUserCart(User user) throws SQLException {
         return cartService.findCountOfItemsByUserId(user.getId());
     }
 
     public void addNewProductForThisUser(User user) throws SQLException {
-        userDao.create(user);
+        //TODO
     }
 }
