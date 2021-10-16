@@ -10,6 +10,7 @@ import java.sql.SQLException;
  */
 public class UserService {
     UserDao userDao = new UserDao();
+    CartService cartService = new CartService();
 
     public UserService() throws SQLException, ClassNotFoundException {
     }
@@ -19,6 +20,18 @@ public class UserService {
     }
 
     public void addNewUser(User user) throws SQLException {
+        userDao.create(user);
+    }
+
+    public boolean isPassCorrect(User user) throws SQLException {
+        return userDao.isPassCorrect(user);
+    }
+
+    public int findCountOfItemsInUserCart(User user) {
+        return cartService.findCountOfItemsByUserId(user.getId());
+    }
+
+    public void addNewProductForThisUser(User user) throws SQLException {
         userDao.create(user);
     }
 }

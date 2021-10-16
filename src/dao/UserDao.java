@@ -38,4 +38,15 @@ public class UserDao extends BaseDao {
             statement.executeUpdate();
         }
     }
+
+    public boolean isPassCorrect(User user) throws SQLException {
+        if (connection != null) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users where username=? and password=?");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        }
+        return false;
+    }
 }
