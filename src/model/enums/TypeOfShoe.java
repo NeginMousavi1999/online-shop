@@ -15,7 +15,7 @@ public enum TypeOfShoe {
     }
 
     public TypeOfShoe getValue(String name) {
-        for (TypeOfShoe type:values()) {
+        for (TypeOfShoe type : values()) {
             if (type.name.equalsIgnoreCase(name.trim()))
                 return type;
         }

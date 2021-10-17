@@ -18,4 +18,14 @@ public class Shoe extends Product{
         this.color = color;
         this.typeOfShoe = typeOfShoe;
     }
+
+    @Override
+    public String toString() {
+        return "Shoe{" +
+                super.toString() +
+                ", sizeOfShoe=" + sizeOfShoe + '\n' +
+                ", color=" + color + '\n' +
+                ", typeOfShoe=" + typeOfShoe.toString().toLowerCase() + '\n' +
+                '}';
+    }
 }

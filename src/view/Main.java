@@ -1,9 +1,13 @@
 package view;
 
+import model.Address;
 import model.User;
+import model.products.Product;
+import service.ProductService;
 import service.UserService;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,6 +15,7 @@ import java.util.Scanner;
  */
 public class Main {
     static UserService userService;
+    static ProductService productService;
 
     static {
         try {
@@ -48,9 +53,11 @@ public class Main {
                 tryToEnterCorrectPass = 0;
                 showMenu(user);
                 break;
+
             } else if (tryToEnterCorrectPass == 2) {
                 System.out.println("you've tried 3 times and it's still incorrect!");
                 break;
+
             } else {
                 System.out.println("the password is incorrect");
                 tryToEnterCorrectPass++;
@@ -107,10 +114,15 @@ public class Main {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
             System.out.printf("your cart has %o items%n", count);
-//            userService.addNewProductForThisUser(user);//TODO show products to choose
+            //TODO show products to choose
+            List<Product> products = productService.returnAllProducts();
+            for (Product product : products) {
+                System.out.println(product.toString());
+            }
+            userService.addNewProductForThisUser(user);
 
         } else
-            System.out.println("sorry... you can't add more than 5 items in your cart");
+            System.out.println("Sorry... you can't add more than 5 items in your cart");
     }
 
     private static void register(String username) throws SQLException {
@@ -122,7 +134,10 @@ public class Main {
             if ("y".equals(answer)) {
                 System.out.print("You already add your username so now enter your password: ");
                 String password = scanner.nextLine();
-                User user = new User(username, password);
+                System.out.print("Enter your address postal code: ");
+                String postalCode = scanner.nextLine();
+                Address address = new Address(postalCode);//TODO felan table db barassh dar nazar nemigiram
+                User user = new User(username, password, address);
                 userService.addNewUser(user);
                 break;
             } else if (!"n".equals(answer)) {

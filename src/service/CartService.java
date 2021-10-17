@@ -1,6 +1,6 @@
 package service;
 
-import dao.ProductsSoldDao;
+import dao.CartDao;
 
 import java.sql.SQLException;
 
@@ -8,12 +8,12 @@ import java.sql.SQLException;
  * @author Negin Mousavi
  */
 public class CartService {
-    ProductsSoldDao productsSoldDao = new ProductsSoldDao();
+    CartDao cartDao = new CartDao();
 
     public CartService() throws SQLException, ClassNotFoundException {
     }
 
     public int findCountOfItemsByUserId(int id) throws SQLException {
-        return productsSoldDao.findCountOfItemsByUserId(id);
+        return cartDao.findCountOfItemsByUserId(id);
     }
 }

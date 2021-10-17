@@ -14,4 +14,11 @@ public class Product {
         this.count = count;
         this.cost = cost;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "count=" + count + '\n' +
+                ", cost=" + cost + '\n';
+    }
 }

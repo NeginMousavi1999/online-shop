@@ -1,5 +1,6 @@
 package dao;
 
+import model.Address;
 import model.User;
 
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class UserDao extends BaseDao {
     }
 
     public User createUserAndReturn(ResultSet resultSet) throws SQLException {
-        return new User(resultSet.getString(2), resultSet.getString(3));
+        return new User(resultSet.getString(2), resultSet.getString(3), new Address(resultSet.getString(4)));
     }
 
     public void create(User user) throws SQLException {
@@ -46,7 +47,7 @@ public class UserDao extends BaseDao {
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+                return createUserAndReturn(resultSet); //reusing code :)
             }
         }
         return null;

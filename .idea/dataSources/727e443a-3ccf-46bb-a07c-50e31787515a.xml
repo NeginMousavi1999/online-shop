@@ -932,8 +932,8 @@ SELECT|sys.sys_config:null
       <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,RELOAD,SHUTDOWN,PROCESS,FILE,REFERENCES,INDEX,ALTER,SHOW DATABASES,SUPER,CREATE TEMPORARY TABLES,LOCK TABLES,EXECUTE,REPLICATION SLAVE,REPLICATION CLIENT,CREATE VIEW,SHOW VIEW,CREATE ROUTINE,ALTER ROUTINE,CREATE USER,EVENT,TRIGGER,CREATE TABLESPACE,CREATE ROLE,DROP ROLE!
 </ObjectGrants>
     </user>
-    <table id="291" parent="9" name="electronic_devices"/>
-    <table id="292" parent="9" name="products_sold"/>
+    <table id="291" parent="9" name="carts"/>
+    <table id="292" parent="9" name="electronic_devices"/>
     <table id="293" parent="9" name="readable_items"/>
     <table id="294" parent="9" name="shoes"/>
     <table id="295" parent="9" name="users"/>
@@ -943,58 +943,58 @@ SELECT|sys.sys_config:null
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="297" parent="291" name="cost">
+    <column id="297" parent="291" name="user_id_fk">
       <Position>2</Position>
-      <DataType>double|0s</DataType>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="298" parent="291" name="count">
+    <column id="298" parent="291" name="product_id_fk">
       <Position>3</Position>
       <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="299" parent="291" name="brand">
+    <column id="299" parent="291" name="product_type">
       <Position>4</Position>
-      <DataType>enum(&apos;SAMSUNG&apos;, &apos;LG&apos;, &apos;SONY&apos;, &apos;NOT_SET&apos;)|0e</DataType>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <key id="300" parent="291" name="PRIMARY">
+    <index id="300" parent="291" name="id_idx">
+      <ColNames>user_id_fk</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="301" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="301" parent="292" name="id">
+    <foreign-key id="302" parent="291" name="id">
+      <ColNames>user_id_fk</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="303" parent="292" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="302" parent="292" name="user_id_fk">
+    <column id="304" parent="292" name="cost">
       <Position>2</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>double|0s</DataType>
     </column>
-    <column id="303" parent="292" name="product_id_fk">
+    <column id="305" parent="292" name="count">
       <Position>3</Position>
       <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="304" parent="292" name="product_type">
+    <column id="306" parent="292" name="brand">
       <Position>4</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>enum(&apos;SAMSUNG&apos;, &apos;LG&apos;, &apos;SONY&apos;, &apos;NOT_SET&apos;)|0e</DataType>
     </column>
-    <index id="305" parent="292" name="id_idx">
-      <ColNames>user_id_fk</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="306" parent="292" name="PRIMARY">
+    <key id="307" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="307" parent="292" name="id">
-      <ColNames>user_id_fk</ColNames>
-      <RefTableName>users</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
     <column id="308" parent="293" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
@@ -1069,7 +1069,11 @@ SELECT|sys.sys_config:null
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="324" parent="295" name="PRIMARY">
+    <column id="324" parent="295" name="postal_code">
+      <Position>4</Position>
+      <DataType>varchar(10)|0s</DataType>
+    </column>
+    <key id="325" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

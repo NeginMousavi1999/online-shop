@@ -7,7 +7,7 @@ import model.enums.TypeOfReadableItem;
  * @author Negin Mousavi
  */
 @Data
-public class ReadableItem extends Product{
+public class ReadableItem extends Product {
     private int countOfPages;
     private TypeOfReadableItem typeOfReadableItem;
 
@@ -15,5 +15,14 @@ public class ReadableItem extends Product{
         super(count, cost);
         this.countOfPages = countOfPages;
         this.typeOfReadableItem = typeOfReadableItem;
+    }
+
+    @Override
+    public String toString() {
+        return "ReadableItem{" +
+                super.toString() +
+                ", BrandOfDevice=" + countOfPages + '\n' +
+                ", typeOfReadableItem=" + typeOfReadableItem.toString().toLowerCase() + '\n' +
+                '}';
     }
 }

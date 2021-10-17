@@ -15,7 +15,7 @@ public enum TypeOfReadableItem {
     }
 
     public TypeOfReadableItem getValue(String name) {
-        for (TypeOfReadableItem type:values()) {
+        for (TypeOfReadableItem type : values()) {
             if (type.name.equalsIgnoreCase(name.trim()))
                 return type;
         }

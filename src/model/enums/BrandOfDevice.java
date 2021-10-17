@@ -16,7 +16,7 @@ public enum BrandOfDevice {
     }
 
     public BrandOfDevice getValue(String name) {
-        for (BrandOfDevice brand:values()) {
+        for (BrandOfDevice brand : values()) {
             if (brand.name.equalsIgnoreCase(name.trim()))
                 return brand;
         }
