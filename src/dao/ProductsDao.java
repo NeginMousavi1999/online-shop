@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Negin Mousavi
  */
-public abstract class ProductsDao extends BaseDao{
+public abstract class ProductsDao extends BaseDao {
     public ProductsDao() throws ClassNotFoundException, SQLException {
     }
 
@@ -29,4 +29,13 @@ public abstract class ProductsDao extends BaseDao{
 
     public abstract Product createAndReturn(ResultSet resultSet) throws SQLException;
 
+    public ProductsDao reduceTheCountOfProduct(Product product) throws SQLException {
+        if (connection != null) {
+            String sql = String.format("UPDATE TABLE %s SET count = count - 1 WHERE id = ?", product.getTypeOfProducts().toString().toLowerCase());
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, product.getId());
+            statement.executeUpdate();
+        }
+        return null;
+    }
 }

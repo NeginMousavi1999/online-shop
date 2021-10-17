@@ -2,6 +2,7 @@ package model.products;
 
 import lombok.Data;
 import model.enums.BrandOfDevice;
+import model.enums.TypeOfProducts;
 
 /**
  * @author Negin Mousavi
@@ -12,6 +13,12 @@ public class ElectronicDevice extends Product {
 
     public ElectronicDevice(int count, double cost, BrandOfDevice brandOfDevice) {
         super(count, cost);
+        this.brandOfDevice = brandOfDevice;
+        typeOfProducts = TypeOfProducts.ELECTRONIC_DEVICES;
+    }
+
+    public ElectronicDevice(int id, int count, double cost, BrandOfDevice brandOfDevice) {
+        super(id, count, cost);
         this.brandOfDevice = brandOfDevice;
     }
 

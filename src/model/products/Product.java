@@ -1,6 +1,7 @@
 package model.products;
 
 import lombok.Data;
+import model.enums.TypeOfProducts;
 
 /**
  * @author Negin Mousavi
@@ -10,8 +11,15 @@ public class Product {
     private int id;
     protected int count;
     protected double cost;
+    protected TypeOfProducts typeOfProducts;
 
     public Product(int count, double cost) {
+        this.count = count;
+        this.cost = cost;
+    }
+
+    public Product(int id, int count, double cost) {
+        this.id = id;
         this.count = count;
         this.cost = cost;
     }

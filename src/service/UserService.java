@@ -31,7 +31,7 @@ public class UserService {
         return cartService.findCountOfItemsByUserId(user.getId());
     }
 
-    public void addNewProductForThisUser(User user) throws SQLException {
-        //TODO
+    public CartService accessToCartService() {
+        return cartService;
     }
 }

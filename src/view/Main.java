@@ -31,7 +31,7 @@ public class Main {
     public Main() throws SQLException, ClassNotFoundException {
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         welcome();
         printStar();
         System.out.print("Enter your username: ");
@@ -44,7 +44,7 @@ public class Main {
         }
     }
 
-    private static void login(String username) throws SQLException {
+    private static void login(String username) throws SQLException, ClassNotFoundException {
         int tryToEnterCorrectPass = 0;
         while (true) {
             System.out.print("Enter your password: ");
@@ -66,7 +66,7 @@ public class Main {
         }
     }
 
-    private static void showMenu(User user) throws SQLException {
+    private static void showMenu(User user) throws SQLException, ClassNotFoundException {
         int choice;
         choices:
         do {
@@ -111,19 +111,43 @@ public class Main {
         } while (true);
     }
 
-    private static void addNewProduct(User user) throws SQLException {
+    private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
-            System.out.printf("your cart has %o items%n", count);
-            //TODO show products to choose
+            System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
+
             List<Object> products = productService.returnAllProducts();
+            int index = 0;
             for (Object product : products) {
-                System.out.println(product.toString());
+                System.out.println((++index)+ ")" + product.toString());
             }
-            userService.addNewProductForThisUser(user);
+
+            System.out.print("Enter the number of product: ");
+            int number = scanner.nextInt();
+            if (number > products.size() + 1) {
+                printInvalidInput();
+                return;
+            }
+
+            Product product = (Product) products.get(number - 1);
+            int countOfOrder = getCountOfOrders();
+            while (!isCountOfOrderValid(product, countOfOrder)) {
+                System.out.println("it is more than the allowed count");
+                countOfOrder = getCountOfOrders();
+            }
+            userService.accessToCartService().addNewProductForThisUser(user, product, countOfOrder);
 
         } else
             System.out.println("Sorry... you can't add more than 5 items in your cart");
+    }
+
+    private static boolean isCountOfOrderValid(Product product, int countOfOrder) {
+        return product.getCount() > countOfOrder;
+    }
+
+    private static int getCountOfOrders() {
+        System.out.print("Enter the count of it: ");
+        return scanner.nextInt();
     }
 
     private static void register(String username) throws SQLException {

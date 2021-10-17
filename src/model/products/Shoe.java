@@ -1,6 +1,7 @@
 package model.products;
 
 import lombok.Data;
+import model.enums.TypeOfProducts;
 import model.enums.TypeOfShoe;
 
 /**
@@ -14,6 +15,14 @@ public class Shoe extends Product{
 
     public Shoe(int count, double cost, int sizeOfShoe, String color, TypeOfShoe typeOfShoe) {
         super(count, cost);
+        this.sizeOfShoe = sizeOfShoe;
+        this.color = color;
+        this.typeOfShoe = typeOfShoe;
+        typeOfProducts = TypeOfProducts.SHOES;
+    }
+
+    public Shoe(int id, int count, double cost, int sizeOfShoe, String color, TypeOfShoe typeOfShoe) {
+        super(id, count, cost);
         this.sizeOfShoe = sizeOfShoe;
         this.color = color;
         this.typeOfShoe = typeOfShoe;
