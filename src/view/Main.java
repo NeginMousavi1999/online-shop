@@ -2,7 +2,9 @@ package view;
 
 import model.Address;
 import model.User;
+import model.enums.TypeOfShoe;
 import model.products.Product;
+import model.products.Shoe;
 import service.ProductService;
 import service.UserService;
 
@@ -116,7 +118,9 @@ public class Main {
         if (count < 5) {
             System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
 
-            List<Object> products = productService.returnAllProducts();
+            //*: class cast exception
+
+/*            List<Object> products = productService.returnAllProducts();
             int index = 0;
             for (Object product : products) {
                 System.out.println((++index)+ ")" + product.toString());
@@ -128,13 +132,16 @@ public class Main {
                 printInvalidInput();
                 return;
             }
-
             Product product = (Product) products.get(number - 1);
+            */
+
+            Shoe product = new Shoe(1, 3,22.5,38,"white", TypeOfShoe.SPORT);//for test because of *
             int countOfOrder = getCountOfOrders();
             while (!isCountOfOrderValid(product, countOfOrder)) {
                 System.out.println("it is more than the allowed count");
                 countOfOrder = getCountOfOrders();
             }
+            System.out.println("***" + product.getTypeOfProducts().toString().toLowerCase());
             userService.accessToCartService().addNewProductForThisUser(user, product, countOfOrder);
 
         } else

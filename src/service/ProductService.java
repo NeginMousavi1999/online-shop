@@ -33,12 +33,12 @@ public class ProductService {
     }
 
 
-    public void reduceTheCountOfProduct(Product product) throws SQLException, ClassNotFoundException {
+    public void reduceTheCountOfProduct(Product product, int count) throws SQLException, ClassNotFoundException {
         ProductsDao productsDao = new ProductsDao() {
             @Override
             public Product createAndReturn(ResultSet resultSet) throws SQLException {
                 return null;
             }
-        }.reduceTheCountOfProduct(product);
+        }.reduceTheCountOfProduct(product, count);
     }
 }

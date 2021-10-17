@@ -26,6 +26,7 @@ public class Shoe extends Product{
         this.sizeOfShoe = sizeOfShoe;
         this.color = color;
         this.typeOfShoe = typeOfShoe;
+        typeOfProducts = TypeOfProducts.SHOES;
     }
 
     @Override

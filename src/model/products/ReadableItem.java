@@ -23,6 +23,7 @@ public class ReadableItem extends Product {
         super(id, count, cost);
         this.countOfPages = countOfPages;
         this.typeOfReadableItem = typeOfReadableItem;
+        typeOfProducts = TypeOfProducts.READABLE_ITEMS;
     }
 
     @Override

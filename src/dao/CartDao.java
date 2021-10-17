@@ -36,7 +36,7 @@ public class CartDao extends BaseDao {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, user.getId());
             statement.setInt(2, product.getId());
-            statement.setString(3, product.getTypeOfProducts().toString().toLowerCase());
+            statement.setString(3, product.getTypeOfProducts().toString());
             statement.setInt(4, count);
             statement.setDouble(5, product.getCost());
             statement.setString(6, "NOT_COMPLETED");

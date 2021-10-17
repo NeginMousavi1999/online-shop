@@ -22,11 +22,11 @@ public class CartService {
 
     public void addNewProductForThisUser(User user, Product product, int count) throws SQLException, ClassNotFoundException {
         cartDao.create(user, product, count);
-        reduceTheCountOfAvailableProduct(product);
+        reduceTheCountOfAvailableProduct(product, count);
     }
 
-    public void reduceTheCountOfAvailableProduct(Product product) throws SQLException, ClassNotFoundException {
-        productService.reduceTheCountOfProduct(product);
+    public void reduceTheCountOfAvailableProduct(Product product, int count) throws SQLException, ClassNotFoundException {
+        productService.reduceTheCountOfProduct(product, count);
     }
 
     public void increaseTheCountOfAvailableProduct(Product product){
