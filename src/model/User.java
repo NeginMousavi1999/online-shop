@@ -1,7 +1,6 @@
 package model;
 
 import lombok.Data;
-import model.products.Product;
 
 import java.util.List;
 

@@ -29,7 +29,7 @@ public class CartService {
         productService.reduceTheCountOfProduct(product, count);
     }
 
-    public void increaseTheCountOfAvailableProduct(Product product){
+    public void increaseTheCountOfAvailableProduct(Product product) {
 
     }
 }

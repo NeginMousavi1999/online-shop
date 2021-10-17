@@ -1,9 +1,6 @@
 package dao;
 
-import model.Address;
-import model.Cart;
 import model.User;
-import model.enums.CartStatus;
 import model.products.Product;
 
 import java.sql.PreparedStatement;

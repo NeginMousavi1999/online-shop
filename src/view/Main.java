@@ -9,7 +9,6 @@ import service.ProductService;
 import service.UserService;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -135,7 +134,7 @@ public class Main {
             Product product = (Product) products.get(number - 1);
             */
 
-            Shoe product = new Shoe(1, 3,22.5,38,"white", TypeOfShoe.SPORT);//for test because of *
+            Shoe product = new Shoe(1, 3, 22.5, 38, "white", TypeOfShoe.SPORT);//for test because of *
             int countOfOrder = getCountOfOrders();
             while (!isCountOfOrderValid(product, countOfOrder)) {
                 System.out.println("it is more than the allowed count");

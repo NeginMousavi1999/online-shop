@@ -8,7 +8,7 @@ import model.enums.TypeOfShoe;
  * @author Negin Mousavi
  */
 @Data
-public class Shoe extends Product{
+public class Shoe extends Product {
     private int sizeOfShoe;
     private String color;
     private TypeOfShoe typeOfShoe;

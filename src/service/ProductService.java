@@ -4,13 +4,11 @@ import dao.ElectronicDeviceDao;
 import dao.ProductsDao;
 import dao.ReadableItemDao;
 import dao.ShoeDao;
-import model.User;
 import model.products.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class ProductService {
             @Override
             public Product createAndReturn(ResultSet resultSet) throws SQLException {
                 return null;
-            }
+            }//TODO rahe behtar?
         }.reduceTheCountOfProduct(product, count);
     }
 }
