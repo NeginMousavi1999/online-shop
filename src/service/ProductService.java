@@ -22,8 +22,8 @@ public class ProductService {
     public ProductService() throws SQLException, ClassNotFoundException {
     }
 
-    public List<Object> returnAllProducts() throws SQLException {
-        List<Object> allProducts = new ArrayList<>(); //خودم خیلی حال کردم با این ^_^
+    public List<List<Product>> returnAllProducts() throws SQLException {
+        List<List<Product>> allProducts = new ArrayList<>(); //خودم خیلی حال کردم با این ^_^
         allProducts.add(electronicDeviceDao.readAll("electronic_devices"));
         allProducts.add(shoeDao.readAll("shoes"));
         allProducts.add(readableItemDao.readAll("readable_items"));

@@ -16,7 +16,7 @@ public class ShoeDao extends ProductsDao {
 
     @Override
     public Shoe createAndReturn(ResultSet resultSet) throws SQLException { //TODO
-        return new Shoe(resultSet.getInt(1), resultSet.getInt(2), resultSet.getDouble(3), resultSet.getInt(4),
+        return new Shoe(resultSet.getInt(1), resultSet.getInt(3), resultSet.getDouble(2), resultSet.getInt(4),
                 resultSet.getString(5), TypeOfShoe.valueOf(resultSet.getString(6)));
     }
 

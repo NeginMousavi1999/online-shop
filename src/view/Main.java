@@ -2,13 +2,12 @@ package view;
 
 import model.Address;
 import model.User;
-import model.enums.TypeOfShoe;
 import model.products.Product;
-import model.products.Shoe;
 import service.ProductService;
 import service.UserService;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -76,7 +75,8 @@ public class Main {
                     "2.Remove product from cart  \n" +
                     "3.Show a list of products with details \n" +
                     "4.Show the total prices cart  \n" +
-                    "5.exit\n" +
+                    "5.Confirm your cart  \n" +
+                    "6.exit\n" +
                     "your choice is: ");
             choice = scanner.nextInt();
             switch (choice) {
@@ -91,7 +91,7 @@ public class Main {
                     break;
 
                 case 3:
-
+                    showAllProducts(productService.returnAllProducts());
                     printStar();
                     break;
 
@@ -101,6 +101,10 @@ public class Main {
                     break;
 
                 case 5:
+                    printStar();
+                    break;
+
+                case 6:
                     printStar();
                     break choices;
 
@@ -117,24 +121,19 @@ public class Main {
         if (count < 5) {
             System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
 
-            //*: class cast exception
-
-/*            List<Object> products = productService.returnAllProducts();
-            int index = 0;
-            for (Object product : products) {
-                System.out.println((++index)+ ")" + product.toString());
-            }
+            List<List<Product>> products = productService.returnAllProducts();
+            int productsSize = showAllProducts(products);
 
             System.out.print("Enter the number of product: ");
             int number = scanner.nextInt();
-            if (number > products.size() + 1) {
+            if (number > productsSize + 1) {
                 printInvalidInput();
                 return;
             }
-            Product product = (Product) products.get(number - 1);
-            */
 
-            Shoe product = new Shoe(1, 3, 22.5, 38, "white", TypeOfShoe.SPORT);//for test because of *
+            Product product = returnProductInListWithNumber(products, number - 1);
+            System.out.println("you choose : " + product.toString());
+
             int countOfOrder = getCountOfOrders();
             while (!isCountOfOrderValid(product, countOfOrder)) {
                 System.out.println("it is more than the allowed count");
@@ -145,6 +144,25 @@ public class Main {
 
         } else
             System.out.println("Sorry... you can't add more than 5 items in your cart");
+    }
+
+    private static Product returnProductInListWithNumber(List<List<Product>> lists, int number) {
+        if (number < lists.get(0).size())
+            return lists.get(0).get(number);
+        else if (number < lists.get(1).size() + lists.get(0).size())
+            return lists.get(1).get(number - lists.get(0).size());
+        else
+            return lists.get(2).get(number - (lists.get(1).size() + lists.get(0).size()));
+    }
+
+    private static int showAllProducts(List<List<Product>> lists) {
+        int index = 0;
+        for (List<Product> productList : lists) {
+            for (Product product : productList) {
+                System.out.println((++index) + ")" + product.toString());
+            }
+        }
+        return index;
     }
 
     private static boolean isCountOfOrderValid(Product product, int countOfOrder) {

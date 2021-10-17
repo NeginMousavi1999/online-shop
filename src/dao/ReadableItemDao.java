@@ -16,7 +16,7 @@ public class ReadableItemDao extends ProductsDao {
 
     @Override
     public ReadableItem createAndReturn(ResultSet resultSet) throws SQLException {//TODO
-        return new ReadableItem(resultSet.getInt(1), resultSet.getInt(2), resultSet.getDouble(3), resultSet.getInt(4),
+        return new ReadableItem(resultSet.getInt(1), resultSet.getInt(3), resultSet.getDouble(2), resultSet.getInt(4),
                 TypeOfReadableItem.valueOf(resultSet.getString(5)));
     }
 

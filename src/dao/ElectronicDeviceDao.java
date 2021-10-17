@@ -16,7 +16,7 @@ public class ElectronicDeviceDao extends ProductsDao {
 
     @Override
     public ElectronicDevice createAndReturn(ResultSet resultSet) throws SQLException {
-        return new ElectronicDevice(resultSet.getInt(1), resultSet.getInt(2), resultSet.getDouble(3),
+        return new ElectronicDevice(resultSet.getInt(1), resultSet.getInt(3), resultSet.getDouble(2),
                 BrandOfDevice.valueOf(resultSet.getString(4)));
     }
 
