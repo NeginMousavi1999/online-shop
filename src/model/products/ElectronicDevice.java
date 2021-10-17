@@ -19,7 +19,7 @@ public class ElectronicDevice extends Product {
     public String toString() {
         return "ElectronicDevice{" +
                 super.toString() +
-                ", BrandOfDevice=" + brandOfDevice.toString().toLowerCase() + '\n' +
+                ", BrandOfDevice=" + brandOfDevice.toString().toLowerCase() +
                 '}';
     }
 }

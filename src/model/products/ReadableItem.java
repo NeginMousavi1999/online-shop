@@ -21,8 +21,8 @@ public class ReadableItem extends Product {
     public String toString() {
         return "ReadableItem{" +
                 super.toString() +
-                ", BrandOfDevice=" + countOfPages + '\n' +
-                ", typeOfReadableItem=" + typeOfReadableItem.toString().toLowerCase() + '\n' +
+                ", BrandOfDevice=" + countOfPages + ' ' +
+                ", typeOfReadableItem=" + typeOfReadableItem.toString().toLowerCase() +
                 '}';
     }
 }

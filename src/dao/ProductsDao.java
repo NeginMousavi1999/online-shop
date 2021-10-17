@@ -18,8 +18,7 @@ public abstract class ProductsDao extends BaseDao{
     public List<Product> readAll(String tableName) throws SQLException {
         List<Product> products = new ArrayList<>();
         if (connection != null) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ?;");
-            preparedStatement.setString(1, tableName);
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM %s ;", tableName));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 products.add(createAndReturn(resultSet));

@@ -20,6 +20,7 @@ public class Main {
     static {
         try {
             userService = new UserService();
+            productService = new ProductService();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -115,8 +116,8 @@ public class Main {
         if (count < 5) {
             System.out.printf("your cart has %o items%n", count);
             //TODO show products to choose
-            List<Product> products = productService.returnAllProducts();
-            for (Product product : products) {
+            List<Object> products = productService.returnAllProducts();
+            for (Object product : products) {
                 System.out.println(product.toString());
             }
             userService.addNewProductForThisUser(user);

@@ -20,11 +20,11 @@ public class ProductService {
     public ProductService() throws SQLException, ClassNotFoundException {
     }
 
-    public List<Product> returnAllProducts() throws SQLException {
-        List<Product> allProducts = new ArrayList<>();
-        allProducts.add((Product) electronicDeviceDao.readAll("electronic_devices"));
-        allProducts.add((Product) shoeDao.readAll("shoes"));
-        allProducts.add((Product) readableItemDao.readAll("readable_items"));
+    public List<Object> returnAllProducts() throws SQLException {
+        List<Object> allProducts = new ArrayList<>();
+        allProducts.add(electronicDeviceDao.readAll("electronic_devices"));
+        allProducts.add(shoeDao.readAll("shoes"));
+        allProducts.add(readableItemDao.readAll("readable_items"));
         return allProducts;
     }
 }

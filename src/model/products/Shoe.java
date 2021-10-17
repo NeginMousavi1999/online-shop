@@ -23,9 +23,9 @@ public class Shoe extends Product{
     public String toString() {
         return "Shoe{" +
                 super.toString() +
-                ", sizeOfShoe=" + sizeOfShoe + '\n' +
-                ", color=" + color + '\n' +
-                ", typeOfShoe=" + typeOfShoe.toString().toLowerCase() + '\n' +
+                ", sizeOfShoe=" + sizeOfShoe + ' ' +
+                ", color=" + color + ' ' +
+                ", typeOfShoe=" + typeOfShoe.toString().toLowerCase() + ' ' +
                 '}';
     }
 }

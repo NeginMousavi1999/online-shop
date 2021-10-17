@@ -7,6 +7,7 @@ import lombok.Data;
  */
 @Data
 public class Product {
+    private int id;
     protected int count;
     protected double cost;
 
@@ -17,8 +18,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "count=" + count + '\n' +
-                ", cost=" + cost + '\n';
+        return  "id=" + id + ' ' +
+                ", count=" + count + ' ' +
+                ", cost=" + cost + ' ';
     }
 }
