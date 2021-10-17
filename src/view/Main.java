@@ -41,7 +41,7 @@ public class Main {
     private static void login(String username) throws SQLException {
         int tryToEnterCorrectPass = 0;
         while (true) {
-            System.out.println("Enter your password: ");
+            System.out.print("Enter your password: ");
             String password = scanner.nextLine();
             User user = userService.findMentionedUser(username, password);
             if (user != null) {
@@ -106,7 +106,8 @@ public class Main {
     private static void addNewProduct(User user) throws SQLException {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
-            userService.addNewProductForThisUser(user);//TODO show products to choose
+            System.out.printf("your cart has %o items%n", count);
+//            userService.addNewProductForThisUser(user);//TODO show products to choose
 
         } else
             System.out.println("sorry... you can't add more than 5 items in your cart");
