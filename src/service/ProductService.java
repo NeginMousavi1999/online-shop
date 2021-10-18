@@ -21,14 +21,15 @@ public class ProductService {
     public ProductService() throws SQLException, ClassNotFoundException {
     }
 
-    public List<List<Product>> returnAllProducts() throws SQLException {
-        List<List<Product>> allProducts = new ArrayList<>();
-        allProducts.add(electronicDeviceDao.readAll("electronic_devices"));
-        allProducts.add(shoeDao.readAll("shoes"));
-        allProducts.add(readableItemDao.readAll("readable_items"));
-        return allProducts;
-    }
+    public List<Product> returnAllProducts() throws SQLException {
 
+        List<Product> products = new ArrayList<>();
+        products.addAll(electronicDeviceDao.readAll("electronic_devices"));
+        products.addAll(shoeDao.readAll("shoes"));
+        products.addAll(readableItemDao.readAll("readable_items"));
+
+        return products;
+    }
 
     public void reduceTheCountOfProduct(Product product, int count) throws SQLException, ClassNotFoundException {
         returnProductsDao().reduceTheCountOfProduct(product, count);

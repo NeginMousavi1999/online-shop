@@ -105,6 +105,7 @@ public class Main {
                     break;
 
                 case 6:
+                    confirmOrders(user);
                     printStar();
                     break;
 
@@ -118,6 +119,10 @@ public class Main {
             }
 
         } while (true);
+    }
+
+    private static void confirmOrders(User user) {
+
     }
 
     private static void showYourCarts(User user) throws SQLException {
@@ -179,7 +184,7 @@ public class Main {
         userService.accessToCartService().removeCart(cart);
     }
 
-    private static void showCarts(List<Cart> carts) throws SQLException {
+    private static void showCarts(List<Cart> carts) {
         for (Cart cart : carts) {
             System.out.println(cart.toString());
         }
@@ -188,12 +193,13 @@ public class Main {
     private static List<Cart> returnNotCompletedCartAndReturn(User user) throws SQLException {
         return userService.accessToCartService().getNotCompletedCart(user);
     }
+
     private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
             System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
 
-            List<List<Product>> products = productService.returnAllProducts();
+            List<Product> products = productService.returnAllProducts();
             int productsSize = showAllProducts(products);
 
             System.out.print("Enter the number of product: ");
@@ -206,8 +212,12 @@ public class Main {
             Product product = returnProductInListWithNumber(products, number - 1);
             if (product == null)
                 return;
-            System.out.println("you choose : " + product.toString());
+            if (product.getCount() == 0) {
+                System.out.println("you can't choose this item because we ran out of it!");
+                return;
+            }
 
+            System.out.println("you choose : " + product.toString());
             int countOfOrder = getCountOfOrders();
             while (!isCountOfOrderValid(product, countOfOrder)) {
                 System.out.println("it is more than the allowed count");
@@ -220,26 +230,14 @@ public class Main {
             System.out.println("Sorry... you can't add more than 5 items in your cart");
     }
 
-    private static Product returnProductInListWithNumber(List<List<Product>> lists, int number) {
-        try {
-            if (number < lists.get(0).size())
-                return lists.get(0).get(number);
-            else if (number < lists.get(1).size() + lists.get(0).size())
-                return lists.get(1).get(number - lists.get(0).size());
-            else
-                return lists.get(2).get(number - (lists.get(1).size() + lists.get(0).size()));
-        } catch (Exception e) {
-            printInvalidInput();
-        }
-        return null;
+    private static Product returnProductInListWithNumber(List<Product> lists, int number) {
+        return lists.get(number);
     }
 
-    private static int showAllProducts(List<List<Product>> lists) {
+    private static int showAllProducts(List<Product> lists) {
         int index = 0;
-        for (List<Product> productList : lists) {
-            for (Product product : productList) {
-                System.out.println((++index) + ")" + product.toString());
-            }
+        for (Product list : lists) {
+            System.out.println((++index) + ")" + list);
         }
         return index;
     }
