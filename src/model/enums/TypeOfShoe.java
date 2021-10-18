@@ -8,7 +8,7 @@ public enum TypeOfShoe {
     FORMAL("formal"),
     NOT_SET("not_set");
 
-    private String name;
+    private final String name;
 
     TypeOfShoe(String name) {
         this.name = name;

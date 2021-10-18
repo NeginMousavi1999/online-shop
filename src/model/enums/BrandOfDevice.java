@@ -9,7 +9,7 @@ public enum BrandOfDevice {
     SONY("sony"),
     NOT_SET("not_set");
 
-    private String name;
+    private final String name;
 
     BrandOfDevice(String name) {
         this.name = name;

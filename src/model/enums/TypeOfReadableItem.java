@@ -8,7 +8,7 @@ public enum TypeOfReadableItem {
     JOURNAL("journal"),
     NOT_SET("not_set");
 
-    private String name;
+    private final String name;
 
     TypeOfReadableItem(String name) {
         this.name = name;

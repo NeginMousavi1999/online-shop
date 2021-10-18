@@ -8,7 +8,7 @@ public enum CartStatus {
     NOT_COMPLETED("not_completed"),
     NOT_SET("not_set");
 
-    private String name;
+    private final String name;
 
     CartStatus(String name) {
         this.name = name;
