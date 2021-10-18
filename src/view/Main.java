@@ -1,13 +1,14 @@
 package view;
 
-import exceptions.UserInputValidation;
 import model.Address;
+import model.Cart;
 import model.User;
 import model.products.Product;
 import service.ProductService;
 import service.UserService;
 
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -116,12 +117,15 @@ public class Main {
         } while (true);
     }
 
-    private static void removeItemFromCart(User user) {
-        showUserCart(user);
+    private static void removeItemFromCart(User user) throws SQLException {
+        showNotCompletedCart(user);
     }
 
-    private static void showUserCart(User user) {
-
+    private static void showNotCompletedCart(User user) throws SQLException {
+        List<Cart> carts = userService.accessToCartService().showUserNotCompletedCart(user);
+        for (Cart cart : carts) {
+            System.out.println(cart.toString());
+        }
     }
 
     private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {

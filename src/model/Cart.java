@@ -13,8 +13,9 @@ import java.util.List;
 @Data
 public class Cart {
     private int id;
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
     private CartStatus cartStatus;
+
 
     public Cart(List<Product> products, CartStatus cartStatus) {
         this.products = products;

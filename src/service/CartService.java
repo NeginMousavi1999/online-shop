@@ -1,10 +1,12 @@
 package service;
 
 import dao.CartDao;
+import model.Cart;
 import model.User;
 import model.products.Product;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Negin Mousavi
@@ -31,5 +33,9 @@ public class CartService {
 
     public void increaseTheCountOfAvailableProduct(Product product) {
 
+    }
+
+    public List<Cart> showUserNotCompletedCart(User user) throws SQLException {
+        return cartDao.showNotCompletedCart(user);
     }
 }

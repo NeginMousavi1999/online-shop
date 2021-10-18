@@ -24,6 +24,13 @@ public class Product {
         this.cost = cost;
     }
 
+    public Product(int id, int count, double cost, TypeOfProducts typeOfProducts) {
+        this.id = id;
+        this.count = count;
+        this.cost = cost;
+        this.typeOfProducts = typeOfProducts;
+    }
+
     @Override
     public String toString() {
         return "id=" + id + ' ' +
