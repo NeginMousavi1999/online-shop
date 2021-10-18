@@ -1,5 +1,6 @@
 package view;
 
+import exceptions.UserInputValidation;
 import model.Address;
 import model.User;
 import model.products.Product;
@@ -139,6 +140,8 @@ public class Main {
             }
 
             Product product = returnProductInListWithNumber(products, number - 1);
+            if (product == null)
+                return;
             System.out.println("you choose : " + product.toString());
 
             int countOfOrder = getCountOfOrders();
@@ -154,12 +157,17 @@ public class Main {
     }
 
     private static Product returnProductInListWithNumber(List<List<Product>> lists, int number) {
-        if (number < lists.get(0).size())
-            return lists.get(0).get(number);
-        else if (number < lists.get(1).size() + lists.get(0).size())
-            return lists.get(1).get(number - lists.get(0).size());
-        else
-            return lists.get(2).get(number - (lists.get(1).size() + lists.get(0).size()));
+        try {
+            if (number < lists.get(0).size())
+                return lists.get(0).get(number);
+            else if (number < lists.get(1).size() + lists.get(0).size())
+                return lists.get(1).get(number - lists.get(0).size());
+            else
+                return lists.get(2).get(number - (lists.get(1).size() + lists.get(0).size()));
+        } catch (Exception e) {
+            printInvalidInput();
+        }
+        return null;
     }
 
     private static int showAllProducts(List<List<Product>> lists) {
