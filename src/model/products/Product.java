@@ -35,6 +35,7 @@ public class Product {
     public String toString() {
         return "id=" + id + ' ' +
                 ", count=" + count + ' ' +
-                ", cost=" + cost + ' ';
+                ", cost=" + cost + ' ' +
+                ", typeOfProducts=" + typeOfProducts.toString().toLowerCase() + ' ';
     }
 }

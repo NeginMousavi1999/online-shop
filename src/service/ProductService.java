@@ -6,7 +6,6 @@ import dao.ReadableItemDao;
 import dao.ShoeDao;
 import model.products.Product;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ProductService {
     }
 
     public List<List<Product>> returnAllProducts() throws SQLException {
-        List<List<Product>> allProducts = new ArrayList<>(); //خودم خیلی حال کردم با این ^_^
+        List<List<Product>> allProducts = new ArrayList<>();
         allProducts.add(electronicDeviceDao.readAll("electronic_devices"));
         allProducts.add(shoeDao.readAll("shoes"));
         allProducts.add(readableItemDao.readAll("readable_items"));
@@ -32,11 +31,19 @@ public class ProductService {
 
 
     public void reduceTheCountOfProduct(Product product, int count) throws SQLException, ClassNotFoundException {
-        ProductsDao productsDao = new ProductsDao() {
-            @Override
-            public Product createAndReturn(ResultSet resultSet) throws SQLException {
-                return null;
-            }//TODO rahe behtar?
-        }.reduceTheCountOfProduct(product, count);
+        returnProductsDao().reduceTheCountOfProduct(product, count);
+    }
+
+    public void increaseTheCountOfProduct(Product product, int count) throws SQLException, ClassNotFoundException {
+        returnProductsDao().increaseTheCountOfProduct(product, count);
+    }
+
+    public Product findProductById(String tableName, int id) throws SQLException, ClassNotFoundException {
+        return returnProductsDao().findById(tableName, id);
+    }
+
+    public ProductsDao returnProductsDao() throws SQLException, ClassNotFoundException {
+        return new ProductsDao() {
+        };
     }
 }

@@ -31,11 +31,20 @@ public class CartService {
         productService.reduceTheCountOfProduct(product, count);
     }
 
-    public void increaseTheCountOfAvailableProduct(Product product) {
-
+    public void increaseTheCountOfAvailableProduct(Product product, int count) throws SQLException, ClassNotFoundException {
+        productService.increaseTheCountOfProduct(product, count);
     }
 
     public List<Cart> showUserNotCompletedCart(User user) throws SQLException {
         return cartDao.showNotCompletedCart(user);
+    }
+
+    public void removeCart(Cart cart) throws SQLException, ClassNotFoundException {
+        cartDao.remove(cart);
+        Product productInCart = cart.getProducts().get(0);
+        System.out.println(productInCart.toString());
+        Product product = productService.findProductById(productInCart.getTypeOfProducts().toString(),
+                productInCart.getId());
+        increaseTheCountOfAvailableProduct(product, productInCart.getCount());
     }
 }

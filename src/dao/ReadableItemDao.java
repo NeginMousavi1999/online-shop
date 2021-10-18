@@ -1,10 +1,8 @@
 package dao;
 
-import model.enums.TypeOfReadableItem;
 import model.products.ReadableItem;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -12,12 +10,6 @@ import java.sql.SQLException;
  */
 public class ReadableItemDao extends ProductsDao {
     public ReadableItemDao() throws ClassNotFoundException, SQLException {
-    }
-
-    @Override
-    public ReadableItem createAndReturn(ResultSet resultSet) throws SQLException {//TODO
-        return new ReadableItem(resultSet.getInt(1), resultSet.getInt(3), resultSet.getDouble(2), resultSet.getInt(4),
-                TypeOfReadableItem.valueOf(resultSet.getString(5)));
     }
 
     public void create(ReadableItem readableItem) throws SQLException {

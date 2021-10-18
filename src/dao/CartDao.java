@@ -90,4 +90,13 @@ public class CartDao extends BaseDao {
         }
         return carts;
     }
+
+    public void remove(Cart cart) throws SQLException {
+        if (connection != null) {
+            String sql = "DELETE FROM carts WHERE id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, cart.getId());
+            preparedStatement.executeUpdate();
+        }
+    }
 }

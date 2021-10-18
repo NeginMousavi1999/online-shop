@@ -1,5 +1,6 @@
 package view;
 
+import exceptions.UserInputValidation;
 import model.Address;
 import model.Cart;
 import model.User;
@@ -8,7 +9,6 @@ import service.ProductService;
 import service.UserService;
 
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,10 +30,7 @@ public class Main {
 
     static Scanner scanner = new Scanner(System.in);
 
-    public Main() throws SQLException, ClassNotFoundException {
-    }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException {
         welcome();
         printStar();
         System.out.print("Enter your username: ");
@@ -46,7 +43,7 @@ public class Main {
         }
     }
 
-    private static void login(String username) throws SQLException, ClassNotFoundException {
+    private static void login(String username) throws SQLException, ClassNotFoundException, InterruptedException {
         int tryToEnterCorrectPass = 0;
         while (true) {
             System.out.print("Enter your password: ");
@@ -67,7 +64,7 @@ public class Main {
         }
     }
 
-    private static void showMenu(User user) throws SQLException, ClassNotFoundException {
+    private static void showMenu(User user) throws SQLException, ClassNotFoundException, InterruptedException {
         int choice;
         choices:
         do {
@@ -117,15 +114,38 @@ public class Main {
         } while (true);
     }
 
-    private static void removeItemFromCart(User user) throws SQLException {
-        showNotCompletedCart(user);
+    private static void removeItemFromCart(User user) throws SQLException, InterruptedException, ClassNotFoundException {
+        List<Cart> carts = showNotCompletedCartAndReturn(user);
+        int numberToRemove;
+        while (true) {
+            System.out.print("enter the number of cart to remove it: ");
+            try {
+                numberToRemove = scanner.nextInt();
+                handleExceptionForIdToRemove(carts, numberToRemove);
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                Thread.sleep(1000);
+            }
+        }
+        removeCart(carts.get(numberToRemove - 1));
     }
 
-    private static void showNotCompletedCart(User user) throws SQLException {
+    private static void handleExceptionForIdToRemove(List<Cart> carts, int idToRemove) {
+        if (idToRemove > carts.size())
+            throw new UserInputValidation("invalid input");
+    }
+
+    private static void removeCart(Cart cart) throws SQLException, ClassNotFoundException {
+        userService.accessToCartService().removeCart(cart);
+    }
+
+    private static List<Cart> showNotCompletedCartAndReturn(User user) throws SQLException {
         List<Cart> carts = userService.accessToCartService().showUserNotCompletedCart(user);
         for (Cart cart : carts) {
             System.out.println(cart.toString());
         }
+        return carts;
     }
 
     private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {
