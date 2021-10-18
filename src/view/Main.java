@@ -65,7 +65,7 @@ public class Main {
     }
 
     private static void showMenu(User user) throws SQLException, ClassNotFoundException, InterruptedException {
-        int choice = 0;
+        int choice;
         choices:
         do {
             System.out.print("choose from below:\n" +
