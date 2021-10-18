@@ -22,7 +22,7 @@ public class CartDao extends BaseDao {
     public int findCountOfItemsByUserId(int id) throws SQLException {
         int count = 0;
         if (connection != null) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM carts where user_id_fk=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM carts where user_id_fk=? AND status=\"NOT_COMPLETED\";");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
@@ -71,22 +71,23 @@ public class CartDao extends BaseDao {
         return false;
     }
 
-    public Cart createNotCompletedCartAndReturn(ResultSet resultSet) throws SQLException {
+    public Cart createCartAndReturn(ResultSet resultSet, CartStatus cartStatus) throws SQLException {
         List<Product> products = new ArrayList<>();
         products.add(new Product(resultSet.getInt(5), resultSet.getInt(3), resultSet.getDouble(4),
                 TypeOfProducts.valueOf(resultSet.getString(2))));
-        return new Cart(resultSet.getInt(1), products, CartStatus.NOT_COMPLETED);
+        return new Cart(resultSet.getInt(1), products, cartStatus);
     }
 
-    public List<Cart> showNotCompletedCart(User user) throws SQLException {
+    public List<Cart> getCartsWithStatus(User user, CartStatus cartStatus) throws SQLException {
         List<Cart> carts = new ArrayList<>();
         if (connection != null) {
-            String sql = "SELECT id, product_type, count, cost, product_id_fk FROM carts WHERE user_id_fk=? AND status=\"NOT_COMPLETED\";";
+            String sql = "SELECT id, product_type, count, cost, product_id_fk FROM carts WHERE user_id_fk=? AND status=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
+            preparedStatement.setString(2, cartStatus.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
-                carts.add(createNotCompletedCartAndReturn(resultSet));
+                carts.add(createCartAndReturn(resultSet, cartStatus));
         }
         return carts;
     }
