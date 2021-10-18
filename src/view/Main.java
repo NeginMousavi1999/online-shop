@@ -65,7 +65,7 @@ public class Main {
     }
 
     private static void showMenu(User user) throws SQLException, ClassNotFoundException, InterruptedException {
-        int choice;
+        int choice = 0;
         choices:
         do {
             System.out.print("choose from below:\n" +
@@ -77,7 +77,8 @@ public class Main {
                     "6.Confirm your cart  \n" +
                     "7.exit\n" +
                     "your choice is: ");
-            choice = scanner.nextInt();
+
+            choice = getIntegerInputAndHandleExceptionForAndReturnIt();
             switch (choice) {
                 case 1:
                     addNewProduct(user);
@@ -119,6 +120,21 @@ public class Main {
             }
 
         } while (true);
+    }
+
+    private static int getIntegerInputAndHandleExceptionForAndReturnIt() throws InterruptedException {
+        int input;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                input = scanner.nextInt();
+                break;
+            } else {
+                scanner.nextLine();
+                System.out.println("Enter a valid Integer value");
+                Thread.sleep(1000);
+            }
+        }
+        return input;
     }
 
     private static void confirmOrders(User user) throws SQLException, InterruptedException {
@@ -186,7 +202,7 @@ public class Main {
         while (true) {
             System.out.print("enter the number of cart to remove it: ");
             try {
-                numberToRemove = scanner.nextInt();
+                numberToRemove = getIntegerInputAndHandleExceptionForAndReturnIt();
                 handleExceptionForIdToRemove(carts, numberToRemove);
                 break;
             } catch (Exception e) {
@@ -216,7 +232,7 @@ public class Main {
         return userService.accessToCartService().getNotCompletedCart(user);
     }
 
-    private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {
+    private static void addNewProduct(User user) throws SQLException, ClassNotFoundException, InterruptedException {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
             System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
@@ -225,7 +241,7 @@ public class Main {
             int productsSize = showAllProducts(products);
 
             System.out.print("Enter the number of product: ");
-            int number = scanner.nextInt();
+            int number = getIntegerInputAndHandleExceptionForAndReturnIt();
             if (number > productsSize + 1) {
                 printInvalidInput();
                 return;
@@ -268,9 +284,9 @@ public class Main {
         return product.getCount() >= countOfOrder;
     }
 
-    private static int getCountOfOrders() {
+    private static int getCountOfOrders() throws InterruptedException {
         System.out.print("Enter the count of it: ");
-        return scanner.nextInt();
+        return getIntegerInputAndHandleExceptionForAndReturnIt();
     }
 
     private static void register(String username) throws SQLException {
