@@ -52,4 +52,8 @@ public class CartService {
     public List<Cart> getCompletedCart(User user) throws SQLException {
         return cartDao.getCartsWithStatus(user, CartStatus.COMPLETED);
     }
+
+    public void confirmCarts(User user) throws SQLException {
+        cartDao.updateStatus(user);
+    }
 }

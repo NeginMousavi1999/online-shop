@@ -121,13 +121,35 @@ public class Main {
         } while (true);
     }
 
-    private static void confirmOrders(User user) {
+    private static void confirmOrders(User user) throws SQLException, InterruptedException {
+        System.out.println("here is your list:");
+        showCarts(returnNotCompletedCart(user));
+        getTotalPriceOfCartsForThisUser(user);
 
+        while (true) {
+            System.out.print("are you sure that you wanna confirm and pay?(y/n):");
+            scanner.nextLine();
+            try {
+                String answer = scanner.nextLine();
+                if (answer.equalsIgnoreCase("y")) {
+                    userService.accessToCartService().confirmCarts(user);
+                    break;
+                } else if (answer.equalsIgnoreCase("n")) {
+                    System.out.println("ok... come back later :)");
+                    break;
+                } else
+                    throw new UserInputValidation("invalid answer!");
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                Thread.sleep(1000);
+            }
+        }
+        System.out.println("Done :)");
     }
 
     private static void showYourCarts(User user) throws SQLException {
-        List<Cart> notCompletedCarts = returnNotCompletedCartAndReturn(user);
-        List<Cart> completedCarts = returnCompletedCartAndReturn(user);
+        List<Cart> notCompletedCarts = returnNotCompletedCart(user);
+        List<Cart> completedCarts = returnCompletedCart(user);
         System.out.println("your past carts:");
         for (Cart completedCart : completedCarts) {
             System.out.println(completedCart.toString());
@@ -138,12 +160,12 @@ public class Main {
         }
     }
 
-    private static List<Cart> returnCompletedCartAndReturn(User user) throws SQLException {
+    private static List<Cart> returnCompletedCart(User user) throws SQLException {
         return userService.accessToCartService().getCompletedCart(user);
     }
 
     private static void getTotalPriceOfCartsForThisUser(User user) throws SQLException {
-        List<Cart> carts = returnNotCompletedCartAndReturn(user);
+        List<Cart> carts = returnNotCompletedCart(user);
         System.out.println("the total cost is: " + calTotalCost(carts));
     }
 
@@ -158,7 +180,7 @@ public class Main {
     }
 
     private static void removeItemFromCart(User user) throws SQLException, InterruptedException, ClassNotFoundException {
-        List<Cart> carts = returnNotCompletedCartAndReturn(user);
+        List<Cart> carts = returnNotCompletedCart(user);
         showCarts(carts);
         int numberToRemove;
         while (true) {
@@ -190,7 +212,7 @@ public class Main {
         }
     }
 
-    private static List<Cart> returnNotCompletedCartAndReturn(User user) throws SQLException {
+    private static List<Cart> returnNotCompletedCart(User user) throws SQLException {
         return userService.accessToCartService().getNotCompletedCart(user);
     }
 

@@ -100,4 +100,13 @@ public class CartDao extends BaseDao {
             preparedStatement.executeUpdate();
         }
     }
+
+    public void updateStatus(User user) throws SQLException {
+        if (connection != null) {
+            String sql = "UPDATE carts SET status=\"COMPLETED\" WHERE user_id_fk=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
+        }
+    }
 }
