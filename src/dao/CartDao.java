@@ -58,8 +58,8 @@ public class CartDao extends BaseDao {
             String sql = "SELECT * FROM carts WHERE user_id_fk=? AND product_id_fk=? AND product_type=? AND status=\"NOT_COMPLETED\"";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(1, product.getId());
-            preparedStatement.setString(1, product.getTypeOfProducts().toString());
+            preparedStatement.setInt(2, product.getId());
+            preparedStatement.setString(3, product.getTypeOfProducts().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
                 return true;

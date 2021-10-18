@@ -173,7 +173,7 @@ public class Main {
     }
 
     private static boolean isCountOfOrderValid(Product product, int countOfOrder) {
-        return product.getCount() > countOfOrder;
+        return product.getCount() >= countOfOrder;
     }
 
     private static int getCountOfOrders() {
