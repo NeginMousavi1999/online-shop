@@ -51,7 +51,6 @@ public class Main {
             String password = scanner.nextLine();
             User user = userService.findMentionedUser(username, password);
             if (user != null) {
-                tryToEnterCorrectPass = 0;
                 showMenu(user);
                 break;
 
@@ -86,7 +85,7 @@ public class Main {
                     break;
 
                 case 2:
-
+                    removeItemFromCart(user);
                     printStar();
                     break;
 
@@ -114,6 +113,14 @@ public class Main {
             }
 
         } while (true);
+    }
+
+    private static void removeItemFromCart(User user) {
+        showUserCart(user);
+    }
+
+    private static void showUserCart(User user) {
+
     }
 
     private static void addNewProduct(User user) throws SQLException, ClassNotFoundException {
