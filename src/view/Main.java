@@ -81,7 +81,7 @@ public class Main {
             choice = getIntegerInputAndHandleExceptionForAndReturnIt();
             switch (choice) {
                 case 1:
-                    addNewProduct(user);
+                    addNewProductToCart(user);
                     printStar();
                     break;
 
@@ -232,7 +232,7 @@ public class Main {
         return userService.accessToCartService().getNotCompletedCart(user);
     }
 
-    private static void addNewProduct(User user) throws SQLException, ClassNotFoundException, InterruptedException {
+    private static void addNewProductToCart(User user) throws SQLException, ClassNotFoundException, InterruptedException {
         int count = userService.findCountOfItemsInUserCart(user);
         if (count < 5) {
             System.out.printf("your cart has %o items so you can add %o items%n", count, (5 - count));
@@ -300,7 +300,7 @@ public class Main {
                 String password = scanner.nextLine();
                 System.out.print("Enter your address postal code: ");
                 String postalCode = scanner.nextLine();
-                Address address = new Address(postalCode);//TODO felan table db barassh dar nazar nemigiram
+                Address address = new Address(postalCode);
                 User user = new User(username, password, address);
                 userService.addNewUser(user);
                 break;
