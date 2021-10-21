@@ -19,15 +19,12 @@ public class Product {
     }
 
     public Product(int id, int count, double cost) {
+        this(count, cost);
         this.id = id;
-        this.count = count;
-        this.cost = cost;
     }
 
     public Product(int id, int count, double cost, TypeOfProducts typeOfProducts) {
-        this.id = id;
-        this.count = count;
-        this.cost = cost;
+        this(id, count, cost);
         this.typeOfProducts = typeOfProducts;
     }
 

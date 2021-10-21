@@ -1,9 +1,9 @@
 package service;
 
 import dao.CartDao;
-import model.Cart;
-import model.User;
+import model.ProductSold;
 import model.enums.CartStatus;
+import model.person.User;
 import model.products.Product;
 
 import java.sql.SQLException;
@@ -36,20 +36,20 @@ public class CartService {
         productService.increaseTheCountOfProduct(product, count);
     }
 
-    public List<Cart> getNotCompletedCart(User user) throws SQLException {
+    public List<ProductSold> getNotCompletedCart(User user) throws SQLException {
         return cartDao.getCartsWithStatus(user, CartStatus.NOT_COMPLETED);
     }
 
-    public void removeCart(Cart cart) throws SQLException, ClassNotFoundException {
-        cartDao.remove(cart);
-        Product productInCart = cart.getProducts().get(0);
+    public void removeCart(ProductSold productSold) throws SQLException, ClassNotFoundException {
+        cartDao.remove(productSold);
+        Product productInCart = productSold.getProducts().get(0);
         System.out.println(productInCart.toString());
         Product product = productService.findProductById(productInCart.getTypeOfProducts().toString(),
                 productInCart.getId());
         increaseTheCountOfAvailableProduct(product, productInCart.getCount());
     }
 
-    public List<Cart> getCompletedCart(User user) throws SQLException {
+    public List<ProductSold> getCompletedCart(User user) throws SQLException {
         return cartDao.getCartsWithStatus(user, CartStatus.COMPLETED);
     }
 

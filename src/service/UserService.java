@@ -1,9 +1,10 @@
 package service;
 
 import dao.UserDao;
-import model.User;
+import model.person.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Negin Mousavi
@@ -33,5 +34,9 @@ public class UserService {
 
     public CartService accessToCartService() {
         return cartService;
+    }
+
+    public List<User> returnAllUsers() throws SQLException {
+        return userDao.readAll();
     }
 }

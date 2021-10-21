@@ -1,9 +1,9 @@
 package dao;
 
-import model.Cart;
-import model.User;
+import model.ProductSold;
 import model.enums.CartStatus;
 import model.enums.TypeOfProducts;
+import model.person.User;
 import model.products.Product;
 
 import java.sql.PreparedStatement;
@@ -71,15 +71,15 @@ public class CartDao extends BaseDao {
         return false;
     }
 
-    public Cart createCartAndReturn(ResultSet resultSet, CartStatus cartStatus) throws SQLException {
+    public ProductSold createCartAndReturn(ResultSet resultSet, CartStatus cartStatus) throws SQLException {
         List<Product> products = new ArrayList<>();
         products.add(new Product(resultSet.getInt(5), resultSet.getInt(3), resultSet.getDouble(4),
                 TypeOfProducts.valueOf(resultSet.getString(2))));
-        return new Cart(resultSet.getInt(1), products, cartStatus);
+        return new ProductSold(resultSet.getInt(1), products, cartStatus);
     }
 
-    public List<Cart> getCartsWithStatus(User user, CartStatus cartStatus) throws SQLException {
-        List<Cart> carts = new ArrayList<>();
+    public List<ProductSold> getCartsWithStatus(User user, CartStatus cartStatus) throws SQLException {
+        List<ProductSold> soldList = new ArrayList<>();
         if (connection != null) {
             String sql = "SELECT id, product_type, count, cost, product_id_fk FROM carts WHERE user_id_fk=? AND status=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -87,16 +87,16 @@ public class CartDao extends BaseDao {
             preparedStatement.setString(2, cartStatus.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
-                carts.add(createCartAndReturn(resultSet, cartStatus));
+                soldList.add(createCartAndReturn(resultSet, cartStatus));
         }
-        return carts;
+        return soldList;
     }
 
-    public void remove(Cart cart) throws SQLException {
+    public void remove(ProductSold productSold) throws SQLException {
         if (connection != null) {
             String sql = "DELETE FROM carts WHERE id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, cart.getId());
+            preparedStatement.setInt(1, productSold.getId());
             preparedStatement.executeUpdate();
         }
     }

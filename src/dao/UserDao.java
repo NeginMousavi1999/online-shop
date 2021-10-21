@@ -1,11 +1,14 @@
 package dao;
 
-import model.Address;
-import model.User;
+import model.enums.UserRole;
+import model.person.Address;
+import model.person.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Negin Mousavi
@@ -28,7 +31,7 @@ public class UserDao extends BaseDao {
 
     public User createUserAndReturn(ResultSet resultSet) throws SQLException {
         return new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
-                new Address(resultSet.getString(4)));
+                new Address(resultSet.getString(4)), UserRole.valueOf(resultSet.getString(5)));
     }
 
     public void create(User user) throws SQLException {
@@ -52,5 +55,19 @@ public class UserDao extends BaseDao {
             }
         }
         return null;
+    }
+
+    public List<User> readAll() throws SQLException {
+        List<User> users = new ArrayList<>();
+        if (connection != null) {
+            String sql = "SELECT * FROM users;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                users.add(createUserAndReturn(resultSet));
+            }
+        }
+        return users;
+
     }
 }

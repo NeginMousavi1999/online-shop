@@ -1,10 +1,17 @@
 package view;
 
 import exceptions.UserInputValidation;
-import model.Address;
-import model.Cart;
-import model.User;
+import model.ProductSold;
+import model.enums.BrandOfDevice;
+import model.enums.TypeOfReadableItem;
+import model.enums.TypeOfShoe;
+import model.enums.UserRole;
+import model.person.Address;
+import model.person.User;
+import model.products.ElectronicDevice;
 import model.products.Product;
+import model.products.ReadableItem;
+import model.products.Shoe;
 import service.ProductService;
 import service.UserService;
 
@@ -23,12 +30,12 @@ public class Main {
         try {
             userService = new UserService();
             productService = new ProductService();
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException | ClassNotFoundException throwable) {
+            throwable.printStackTrace();
         }
     }
 
-    static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException {
         welcome();
@@ -50,7 +57,11 @@ public class Main {
             String password = scanner.nextLine();
             User user = userService.findMentionedUser(username, password);
             if (user != null) {
-                showMenu(user);
+                if (user.getUserRole().equals(UserRole.USER)) {
+                    showUserMenu(user);
+                } else {
+                    showAdminMenu();
+                }
                 break;
 
             } else if (tryToEnterCorrectPass == 2) {
@@ -64,7 +75,209 @@ public class Main {
         }
     }
 
-    private static void showMenu(User user) throws SQLException, ClassNotFoundException, InterruptedException {
+    private static void showAdminMenu() throws InterruptedException, SQLException, ClassNotFoundException {
+        System.out.println("*** ADMIN MENU ***");
+        int choice;
+        choices:
+        do {
+            System.out.print("choose from below:\n" +
+                    "1.Add new product  \n" +
+                    "2.Remove product  \n" +
+                    "3.Show all products with details \n" +
+                    "4.Show all users  \n" +
+                    "5.exit\n" +
+                    "your choice is: ");
+
+            choice = getIntegerInputAndHandleExceptionForAndReturnIt();
+            switch (choice) {
+                case 1:
+                    addNewProduct();
+                    printStar();
+                    break;
+
+                case 2:
+                    removeProduct();
+                    printStar();
+                    break;
+
+                case 3:
+                    showAllProducts(productService.returnAllProducts());
+                    printStar();
+                    break;
+
+                case 4:
+                    showAllUsers();
+                    printStar();
+                    break;
+
+                case 5:
+                    printStar();
+                    break choices;
+
+                default:
+                    printInvalidInput();
+                    printStar();
+            }
+
+        } while (true);
+
+    }
+
+    private static void removeProduct() throws InterruptedException, SQLException, ClassNotFoundException {
+        System.out.print("which type of product do you wanna remove? 1.electronic device 2.readable item 3.shoe \nenter the number: ");
+        int productType = getIntegerInputAndHandleExceptionForAndReturnIt();
+        scanner.nextLine();
+        switch (productType) {
+            case 1:
+                removeElectronicProduct();
+                break;
+            case 2:
+                removeReadableProduct();
+                break;
+            case 3:
+                removeShoeProduct();
+                break;
+            default:
+                printInvalidInput();
+                break;
+        }
+    }
+
+    private static Product getRemovingProduct(String tableName) throws InterruptedException, SQLException, ClassNotFoundException {
+        System.out.print("enter the id: ");
+        int id = getIntegerInputAndHandleExceptionForAndReturnIt();
+        return productService.findProductById(tableName, id);
+    }
+
+    private static void removeElectronicProduct() throws InterruptedException, SQLException, ClassNotFoundException {
+        ElectronicDevice electronicDevice = (ElectronicDevice) getRemovingProduct("electronic_devices");
+        if (electronicDevice == null)
+            System.out.println("we have n't this product");
+        else {
+            productService.removeElectronicDevice(electronicDevice);
+        }
+    }
+
+    private static void removeReadableProduct() throws InterruptedException, SQLException, ClassNotFoundException {
+        ReadableItem readableItem = (ReadableItem) getRemovingProduct("readable_items");
+        if (readableItem == null)
+            System.out.println("we have n't this product");
+        else {
+            productService.removeReadableItem(readableItem);
+        }
+    }
+
+    private static void removeShoeProduct() throws InterruptedException, SQLException, ClassNotFoundException {
+        Shoe shoe = (Shoe) getRemovingProduct("shoes");
+        if (shoe == null)
+            System.out.println("we have n't this product");
+        else {
+            productService.removeShoe(shoe);
+        }
+    }
+
+    private static void showAllUsers() throws SQLException {
+        List<User> users = userService.returnAllUsers();
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
+
+    private static void addNewProduct() throws InterruptedException, SQLException {
+        System.out.print("which product do you wanna add? 1.electronic device 2.readable item 3.shoe \nenter the number: ");
+        int productType = getIntegerInputAndHandleExceptionForAndReturnIt();
+        scanner.nextLine();
+        switch (productType) {
+            case 1:
+                addNewElectronicProduct();
+                break;
+            case 2:
+                addNewReadableProduct();
+                break;
+            case 3:
+                addNewShoeProduct();
+                break;
+            default:
+                printInvalidInput();
+                break;
+        }
+    }
+
+    private static void addNewElectronicProduct() throws InterruptedException, SQLException {
+        BrandOfDevice brandOfDevice;
+        do {
+            try {
+                System.out.print("brand: ");
+                brandOfDevice = BrandOfDevice.valueOf(scanner.nextLine().toUpperCase());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("you must enter LG or SAMSUNG or SONY");
+            }
+        } while (true);
+
+        System.out.print("count: ");
+        int count = getIntegerInputAndHandleExceptionForAndReturnIt();
+
+        System.out.print("cost: ");
+        double cost = scanner.nextDouble();
+
+        productService.addNewElectronicProduct(new ElectronicDevice(count, cost, brandOfDevice));
+    }
+
+    private static void addNewReadableProduct() throws InterruptedException, SQLException {
+        TypeOfReadableItem typeOfReadableItem;
+        do {
+            try {
+                System.out.print("type Of Readable Item: ");
+                typeOfReadableItem = TypeOfReadableItem.valueOf(scanner.nextLine().toUpperCase());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("you must enter BOOK or JOURNAL");
+            }
+        } while (true);
+
+        System.out.print("count: ");
+        int count = getIntegerInputAndHandleExceptionForAndReturnIt();
+
+        System.out.print("cost: ");
+        double cost = scanner.nextDouble();
+
+        System.out.print("count of pages: ");
+        int countOfPages = getIntegerInputAndHandleExceptionForAndReturnIt();
+
+        productService.addNewReadableProduct(new ReadableItem(count, cost, countOfPages, typeOfReadableItem));
+    }
+
+    private static void addNewShoeProduct() throws InterruptedException, SQLException {
+        TypeOfShoe typeOfShoe;
+        do {
+            try {
+                System.out.print("type Of Shoe: ");
+                typeOfShoe = TypeOfShoe.valueOf(scanner.nextLine().toUpperCase());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("you must enter SPORT or FORMAL");
+            }
+        } while (true);
+
+        System.out.print("count: ");
+        int count = getIntegerInputAndHandleExceptionForAndReturnIt();
+
+        System.out.print("cost: ");
+        double cost = scanner.nextDouble();
+
+        System.out.print("size of shoe: ");
+        int sizeOfShoe = getIntegerInputAndHandleExceptionForAndReturnIt();
+
+        scanner.nextLine();
+        System.out.print("color: ");
+        String color = scanner.nextLine();
+
+        productService.addNewShoeProduct(new Shoe(count, cost, sizeOfShoe, color, typeOfShoe));
+    }
+
+    private static void showUserMenu(User user) throws SQLException, ClassNotFoundException, InterruptedException {
+        System.out.println("*** USER MENU ***");
         int choice;
         choices:
         do {
@@ -73,7 +286,7 @@ public class Main {
                     "2.Remove product from cart  \n" +
                     "3.Show a list of products with details \n" +
                     "4.Show the total prices cart  \n" +
-                    "5.Show your carts  \n" +
+                    "5.Show your products sold  \n" +
                     "6.Confirm your cart  \n" +
                     "7.exit\n" +
                     "your choice is: ");
@@ -164,71 +377,71 @@ public class Main {
     }
 
     private static void showYourCarts(User user) throws SQLException {
-        List<Cart> notCompletedCarts = returnNotCompletedCart(user);
-        List<Cart> completedCarts = returnCompletedCart(user);
-        System.out.println("your past carts:");
-        for (Cart completedCart : completedCarts) {
-            System.out.println(completedCart.toString());
+        List<ProductSold> notCompletedProductSold = returnNotCompletedCart(user);
+        List<ProductSold> completedProductSold = returnCompletedCart(user);
+        System.out.println("your past products sold:");
+        for (ProductSold productSold : completedProductSold) {
+            System.out.println(productSold.toString());
         }
-        System.out.println("your now carts:");
-        for (Cart notCompletedCart : notCompletedCarts) {
-            System.out.println(notCompletedCart.toString());
+        System.out.println("your now products sold:");
+        for (ProductSold productSold : notCompletedProductSold) {
+            System.out.println(productSold.toString());
         }
     }
 
-    private static List<Cart> returnCompletedCart(User user) throws SQLException {
+    private static List<ProductSold> returnCompletedCart(User user) throws SQLException {
         return userService.accessToCartService().getCompletedCart(user);
     }
 
     private static void getTotalPriceOfCartsForThisUser(User user) throws SQLException {
-        List<Cart> carts = returnNotCompletedCart(user);
-        System.out.println("the total cost is: " + calTotalCost(carts));
+        List<ProductSold> productsSold = returnNotCompletedCart(user);
+        System.out.println("the total cost is: " + calTotalCost(productsSold));
     }
 
-    private static double calTotalCost(List<Cart> carts) {
+    private static double calTotalCost(List<ProductSold> productsSold) {
         double totalCost = 0;
-        for (Cart cart : carts) {
-            for (int i = 0; i < cart.getProducts().size(); i++) {
-                totalCost = totalCost + (cart.getProducts().get(i).getCost() * cart.getProducts().get(i).getCount());
+        for (ProductSold productSold : productsSold) {
+            for (int i = 0; i < productSold.getProducts().size(); i++) {
+                totalCost = totalCost + (productSold.getProducts().get(i).getCost() * productSold.getProducts().get(i).getCount());
             }
         }
         return totalCost;
     }
 
     private static void removeItemFromCart(User user) throws SQLException, InterruptedException, ClassNotFoundException {
-        List<Cart> carts = returnNotCompletedCart(user);
-        showCarts(carts);
+        List<ProductSold> productsSold = returnNotCompletedCart(user);
+        showCarts(productsSold);
         int numberToRemove;
         while (true) {
             System.out.print("enter the number of cart to remove it: ");
             try {
                 numberToRemove = getIntegerInputAndHandleExceptionForAndReturnIt();
-                handleExceptionForIdToRemove(carts, numberToRemove);
+                handleExceptionForIdToRemove(productsSold, numberToRemove);
                 break;
             } catch (Exception e) {
                 System.out.println(e.getLocalizedMessage());
                 Thread.sleep(1000);
             }
         }
-        removeCart(carts.get(numberToRemove - 1));
+        removeCart(productsSold.get(numberToRemove - 1));
     }
 
-    private static void handleExceptionForIdToRemove(List<Cart> carts, int idToRemove) {
-        if (idToRemove > carts.size())
+    private static void handleExceptionForIdToRemove(List<ProductSold> productsSold, int idToRemove) {
+        if (idToRemove > productsSold.size())
             throw new UserInputValidation("invalid input");
     }
 
-    private static void removeCart(Cart cart) throws SQLException, ClassNotFoundException {
-        userService.accessToCartService().removeCart(cart);
+    private static void removeCart(ProductSold productSold) throws SQLException, ClassNotFoundException {
+        userService.accessToCartService().removeCart(productSold);
     }
 
-    private static void showCarts(List<Cart> carts) {
-        for (Cart cart : carts) {
-            System.out.println(cart.toString());
+    private static void showCarts(List<ProductSold> productsSold) {
+        for (ProductSold productSold : productsSold) {
+            System.out.println(productSold.toString());
         }
     }
 
-    private static List<Cart> returnNotCompletedCart(User user) throws SQLException {
+    private static List<ProductSold> returnNotCompletedCart(User user) throws SQLException {
         return userService.accessToCartService().getNotCompletedCart(user);
     }
 
@@ -301,7 +514,7 @@ public class Main {
                 System.out.print("Enter your address postal code: ");
                 String postalCode = scanner.nextLine();
                 Address address = new Address(postalCode);
-                User user = new User(username, password, address);
+                User user = new User(username, password, address, UserRole.USER);
                 userService.addNewUser(user);
                 break;
             } else if (!"n".equals(answer)) {

@@ -80,4 +80,12 @@ public abstract class ProductsDao extends BaseDao {
         }
         return null;
     }
+
+    public void delete(String tableName, int id) throws SQLException {
+        if (connection != null) {
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format("DELETE FROM %s WHERE id=?;", tableName));
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }
+    }
 }
